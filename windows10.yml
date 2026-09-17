@@ -1,0 +1,30 @@
+services:
+  windows:
+    image: dockurr/windows
+    container_name: windows
+    environment:
+      VERSION: "10"
+      USERNAME: ${WINDOWS_USERNAME}
+      PASSWORD: ${WINDOWS_PASSWORD}
+      RAM_SIZE: "6G"
+      CPU_CORES: "2"
+      DISK_SIZE: "64G"
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - "8006:8006"
+      - "3389:3389/tcp"
+    volumes:
+      - /var/lib/docker-data:/mnt/disco1
+      - windows-data:/mnt/windows-data
+    devices:
+      - "/dev/kvm:/dev/kvm"
+      - "/dev/net/tun:/dev/net/tun"
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1
+    stop_grace_period: 2m
+    restart: always
+
+volumes:
+  windows-data:
